@@ -387,8 +387,9 @@ namespace Calculator
                 OutputLabel.Text = a;
 
             }
-            else if (ExpressionIsFormed)//когда уже ExpressionIsFormed==true(выражение сформировано)
+            else if (ExpressionIsFormed && OutputLabel.Text[OutputLabel.Text.Length-1]!=')' )
             {
+                //когда уже ExpressionIsFormed==true(выражение сформировано) и до этого не было минуса
                 Functions functions = new Functions();
                 functions.separator(OutputLabel.Text, ref a, ref b, ref operation);
                 string b_str = b.ToString();
@@ -396,6 +397,14 @@ namespace Calculator
                 //MessageBox.Show($"index_of_b={IndexOf_b}");
                 OutputLabel.Text = OutputLabel.Text.Insert(IndexOf_b, "(-");
                 OutputLabel.Text +=')';
+            }
+            else if(ExpressionIsFormed && OutputLabel.Text[OutputLabel.Text.Length - 1] == ')')
+            {  //когда нужно превратить отрицательный операнд в положительный
+                int IndexOf_OpenBracket=OutputLabel.Text.IndexOf('(');//нашли индекс где нах. символ (
+                string a = OutputLabel.Text.Substring(0, IndexOf_OpenBracket);//от нуля до знака операции(включительно)
+                string b = OutputLabel.Text.Substring(IndexOf_OpenBracket + 2, OutputLabel.Text.Length - a.Length - 3);
+                //всё остальное без скобок и без значка минуса
+                OutputLabel.Text = a + b;
             }
         }
 
