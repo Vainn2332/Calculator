@@ -9,7 +9,7 @@ namespace Calculator
     public class Functions//класс где храним все функции и сути мат.операций
     {       
        public void separator(string str, ref double a, ref double b, ref char operation)
-       {
+       {//разделяем операнды и операции
             int PositionOfOperation;
 
             for (int i = 0; i < str.Length; i++)
@@ -20,14 +20,16 @@ namespace Calculator
                 }
                 catch
                 {
-                    if (i == 0)
+                    if (i == 0)//если первый элемент -
                         continue;
                     PositionOfOperation = i;
-                    string a_str = str.Substring(0, PositionOfOperation);
-                    string b_str = str.Substring(PositionOfOperation + 1, str.Length - 1 - PositionOfOperation);
+                    string a_str = str.Substring(0, PositionOfOperation);//первый операнд
+                    string b_str = str.Substring(PositionOfOperation + 1, str.Length - 1 - PositionOfOperation);//второй операнд
+                    
                     a = double.Parse(a_str);
                     b = double.Parse(b_str);
-                    operation = str[i];
+                    operation = str[i];//операция
+                    
                     break;
                 }
             }

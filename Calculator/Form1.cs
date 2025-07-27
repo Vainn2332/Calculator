@@ -357,25 +357,45 @@ namespace Calculator
 
         private void PowButton_Click(object sender, EventArgs e)
         {
-
+            if (!IsActiveOperation)//если false
+            {
+                OutputLabel.Text += "^";
+                IsActiveOperation = true;
+            }
+            else if (IsActiveOperation == true && ExpressionIsFormed == false)//стадия 5+ -> 5-
+            {
+                char[] str = OutputLabel.Text.ToCharArray();//заменили одну букву(строки в c# неизменяемые поэтому обходные пути)
+                str[str.Length - 1] = '^';
+                OutputLabel.Text = new string(str);
+            }
         }
 
         private void PlusMinusButton_Click(object sender, EventArgs e)
         {
             char first_char = OutputLabel.Text[0];
-            if (first_char == '-')
+            if (first_char == '-' && !ExpressionIsFormed)
             {
                 string a = OutputLabel.Text.Substring(1, OutputLabel.Text.Length - 1);
                 OutputLabel.Text = a;
 
             }
-            else if (first_char == '0')
+            else if (first_char == '0' && !ExpressionIsFormed)
                 return;
-            else
+            else if (!first_char.Equals('-') && !ExpressionIsFormed)//не равен - и мы не на стадии операции 
             {
                 string a = "-" + OutputLabel.Text;
                 OutputLabel.Text = a;
 
+            }
+            else if (ExpressionIsFormed)//когда уже ExpressionIsFormed==true(выражение сформировано)
+            {
+                Functions functions = new Functions();
+                functions.separator(OutputLabel.Text, ref a, ref b, ref operation);
+                string b_str = b.ToString();
+                int IndexOf_b= OutputLabel.Text.IndexOf(b_str);//нашли позицию где начинается второ операнд
+                //MessageBox.Show($"index_of_b={IndexOf_b}");
+                OutputLabel.Text = OutputLabel.Text.Insert(IndexOf_b, "(-");
+                OutputLabel.Text +=')';
             }
         }
 

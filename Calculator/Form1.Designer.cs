@@ -112,7 +112,7 @@
             this.PowButton.Name = "PowButton";
             this.PowButton.Size = new System.Drawing.Size(45, 41);
             this.PowButton.TabIndex = 4;
-            this.PowButton.Text = "^";
+            this.PowButton.Text = "^\r\n";
             this.PowButton.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.PowButton.UseVisualStyleBackColor = false;
             this.PowButton.Click += new System.EventHandler(this.PowButton_Click);
