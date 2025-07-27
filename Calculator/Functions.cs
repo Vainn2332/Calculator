@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Calculator
 {
     public class Functions//класс где храним все функции и сути мат.операций
     {       
-       public void separator(string str, ref double a, ref double b, ref char operation)
+       public void separator(string str, ref double a, ref double b, ref char operation)//str-вся строка (outputlabel)
        {//разделяем операнды и операции
             int PositionOfOperation;
 
@@ -23,14 +24,25 @@ namespace Calculator
                     if (i == 0)//если первый элемент -
                         continue;
                     PositionOfOperation = i;
-                    string a_str = str.Substring(0, PositionOfOperation);//первый операнд
-                    string b_str = str.Substring(PositionOfOperation + 1, str.Length - 1 - PositionOfOperation);//второй операнд
+                    operation = str[PositionOfOperation];//операция
+                    string a_str;
+                    string b_str;
+                    if (str[str.Length - 1] == ')')//если у нас отрицательный второй операнд
+                    {
+                         a_str = str.Substring(0, PositionOfOperation);//первый операнд
+                         b_str = str.Substring(PositionOfOperation + 2, str.Length - 1 - PositionOfOperation-2);//второй операнд
+                    }
+                    else//если положительный
+                    {
+                         a_str = str.Substring(0, PositionOfOperation);//первый операнд
+                         b_str = str.Substring(PositionOfOperation + 1, str.Length - 1 - PositionOfOperation);//второй операнд
+                    }
+                    MessageBox.Show($"a_str={a_str},\nb_Str={b_str}");
+                        a = double.Parse(a_str);
+                        b = double.Parse(b_str);
                     
-                    a = double.Parse(a_str);
-                    b = double.Parse(b_str);
-                    operation = str[i];//операция
-                    
-                    break;
+                        break;
+
                 }
             }
        }
