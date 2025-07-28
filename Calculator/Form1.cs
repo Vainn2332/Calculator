@@ -399,7 +399,7 @@ namespace Calculator
                 Functions functions = new Functions();
                 functions.separator(OutputLabel.Text, ref a, ref b, ref operation);
                 string b_str = b.ToString();
-                int IndexOf_b= OutputLabel.Text.IndexOf(b_str);//нашли позицию где начинается второ операнд
+                int IndexOf_b= OutputLabel.Text.IndexOf(b_str,(a.ToString().Length));//нашли позицию где начинается второ операнд
                 //MessageBox.Show($"index_of_b={IndexOf_b}");
                 OutputLabel.Text = OutputLabel.Text.Insert(IndexOf_b, "(-");
                 OutputLabel.Text +=')';
