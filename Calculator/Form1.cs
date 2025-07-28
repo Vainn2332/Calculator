@@ -490,7 +490,7 @@ namespace Calculator
             }
         }
 
-        bool HaveComaInFirstOperand = false;
+            bool HaveComaInFirstOperand = false;
             bool HaveComaInSecondOperand = false;
         private void ComaButton_Click(object sender, EventArgs e)
         {
