@@ -272,7 +272,9 @@ namespace Calculator
        
         private void PlusButton_Click(object sender, EventArgs e)
         {
-            if (!IsActiveOperation)//если false
+            if (OutputLabel.Text.Length == 1 && OutputLabel.Text[0] == '-')
+                return;
+            if (!IsActiveOperation && ExpressionIsFormed == false)//если false
             {
                 OutputLabel.Text += "+";
                 IsActiveOperation = true;
@@ -294,7 +296,9 @@ namespace Calculator
 
         private void MinusButton_Click(object sender, EventArgs e)
         {
-            if (!IsActiveOperation)//если false
+            if (OutputLabel.Text.Length == 1 && OutputLabel.Text[0] == '-')
+                return;
+            if (!IsActiveOperation && ExpressionIsFormed == false)//если false
             {
                 OutputLabel.Text += "-";
                 IsActiveOperation = true;
@@ -310,7 +314,9 @@ namespace Calculator
 
         private void MultiplyButton_Click(object sender, EventArgs e)
         {
-            if (!IsActiveOperation)//если false
+            if (OutputLabel.Text.Length == 1 && OutputLabel.Text[0] == '-')
+                return;
+            if (!IsActiveOperation && ExpressionIsFormed == false)//если false
             {
                 OutputLabel.Text += "x";
 
@@ -327,7 +333,9 @@ namespace Calculator
 
         private void DivideButton_Click(object sender, EventArgs e)
         {
-            if (!IsActiveOperation)//если false
+            if (OutputLabel.Text.Length == 1 && OutputLabel.Text[0] == '-')
+                return;
+            if (!IsActiveOperation && ExpressionIsFormed == false)//если false
             {
                 OutputLabel.Text += "/";
                 IsActiveOperation = true;
@@ -366,7 +374,9 @@ namespace Calculator
 
         private void PowButton_Click(object sender, EventArgs e)
         {
-            if (!IsActiveOperation)//если false
+            if (OutputLabel.Text.Length == 1 && OutputLabel.Text[0] == '-')
+                return;
+            if (!IsActiveOperation && ExpressionIsFormed == false)//если false
             {
                 OutputLabel.Text += "^";
                 IsActiveOperation = true;
@@ -381,6 +391,8 @@ namespace Calculator
 
         private void PlusMinusButton_Click(object sender, EventArgs e)
         {
+            if (OutputLabel.Text.Length == 1 && OutputLabel.Text[0] == '-')
+                return;
             char first_char = OutputLabel.Text[0];
             //первый операнд
             if (first_char == '-' && !ExpressionIsFormed)
@@ -419,54 +431,72 @@ namespace Calculator
             }
         }
 
-        private void CButton_Click(object sender, EventArgs e)
+        private void CButton_Click(object sender, EventArgs e)//стирать запятые у 1го и у 2го операнд
         {
-            if (OutputLabel.Text.Length > 1)//чекать если стираем знак операции то IsActiveOperation=false
+            char[] operations = new[] { '+', '-', 'x', '/', '^', 'l', 'o', 'g' };
+            if (OutputLabel.Text.Length > 2)
             {
-                char[] operations = new[] { '+', '-', 'x', '/', '^', 'l', 'o', 'g' };
-                bool IsDeleted = false;//показывает удалили ли мы знак операции или нет
-                if(operations.Contains(OutputLabel.Text[OutputLabel.Text.Length - 1]))
-                {//научиться отличать - как згак и как операцию
-
-                }
-                foreach (char item in operations)
-                {
-                    if (item.Equals(OutputLabel.Text.IndexOf('-')!= (OutputLabel.Text.Length - 1)))
-                    {//если хотим удалить знак отрицательного числа а не операции вычитания
-                        OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
-
-                    }
-                    else if(item.Equals(OutputLabel.Text[OutputLabel.Text.Length - 1]))
-                    {//если хотим удалить знак операции
-                        OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
-                        IsActiveOperation = false;
-                        IsDeleted = true;
-
-                    }
-                }
-                if (!IsDeleted && operations.Contains(OutputLabel.Text[OutputLabel.Text.Length - 2]))
+                if (operations.Contains(OutputLabel.Text[OutputLabel.Text.Length - 2]) && OutputLabel.Text[OutputLabel.Text.Length - 3] != '(')
                 {//если хотим удалить цифру и перед ней стоит знак операции
                     OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
                     IsActiveOperation = true;
                     ExpressionIsFormed = false;
                 }
-                else if (!IsDeleted)
+                else if (OutputLabel.Text[OutputLabel.Text.Length - 1] == '-' && OutputLabel.Text[OutputLabel.Text.Length - 2] == '(')
+                {//если хотим удалить знак отрицательного числа а не операции вычитания
+                    OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
+                }
+                else if (operations.Contains(OutputLabel.Text[OutputLabel.Text.Length - 1]))
+                {//если хотим удалить знак операции
+                    OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
+                    IsActiveOperation = false;
+                    ExpressionIsFormed = false;
+                }
+                else if (OutputLabel.Text[OutputLabel.Text.Length - 1] == ',' && ExpressionIsFormed)
+                {//стираем запятую у второго операнда
+                    OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
+                    HaveComaInSecondOperand = false;
+                }
+                else if (OutputLabel.Text[OutputLabel.Text.Length - 1] == ',' && !ExpressionIsFormed)
+                {//стираем запятую у второго операнда
+                    OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
+                    HaveComaInFirstOperand = false;
+                }
+                else
                 {
                     OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
                 }
-
             }
-            //else if ((OutputLabel.Text.Length == 1 && !OutputLabel.Text[0].Equals("0")) || (OutputLabel.Text.Length == 2 && OutputLabel.Text[0].Equals("-")))//Пример: 8 -> 0 || -8 ->0
-            //  OutputLabel.Text = "0";
             else
-                OutputLabel.Text = "0";//0 -> 0
+            {
+                //когда всего 2 символа
+                if (OutputLabel.Text.Length == 1)
+                    OutputLabel.Text = "0";
+                else if (operations.Contains(OutputLabel.Text[OutputLabel.Text.Length - 1]))
+                {//если хотим удалить знак операции
+                    OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
+                    IsActiveOperation = false;
+                    ExpressionIsFormed = false;
+                }
+                else if (OutputLabel.Text[OutputLabel.Text.Length - 1] == ',' && !ExpressionIsFormed)
+                {//стираем запятую у второго операнда
+                    OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
+                    HaveComaInFirstOperand = false;
+                }
+                else
+                {
+                    OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
+                }
+            }
         }
 
-            bool HaveComaInFirstOperand = false;
+        bool HaveComaInFirstOperand = false;
             bool HaveComaInSecondOperand = false;
         private void ComaButton_Click(object sender, EventArgs e)
         {
-            if (!HaveComaInFirstOperand && !ExpressionIsFormed && !IsActiveOperation)
+            if (OutputLabel.Text.Length == 1 && OutputLabel.Text[0] == '-')
+                return;            
+            else if (!HaveComaInFirstOperand && !ExpressionIsFormed && !IsActiveOperation)
             {//если хотим добавить запятую в первом операнде
                 OutputLabel.Text += ',';
                 HaveComaInFirstOperand = true;
@@ -475,7 +505,7 @@ namespace Calculator
             {//если хотим добавить запятую во втором операнде
                 OutputLabel.Text += ',';
                 HaveComaInSecondOperand = true;
-            }
+            }     
         }
     }
 }

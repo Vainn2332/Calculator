@@ -29,15 +29,20 @@ namespace Calculator
                     operation = str[PositionOfOperation];//операция
                     string a_str;
                     string b_str;
-                    if (str[str.Length - 1] == ')')//если у нас отрицательный второй операнд
+                    if (str[str.Length - 1] == ')')//если у нас отрицательный второй операнд со всеми скобками
                     {
                          a_str = str.Substring(0, PositionOfOperation);//первый операнд
                          b_str = str.Substring(PositionOfOperation + 2, str.Length - 1 - PositionOfOperation-2);//второй операнд
                     }
-                    else//если положительный
+                    else if(str[str.Length - 1] != ')' && str[PositionOfOperation + 1] == '(')
+                    {//если у нас отрицательный второй операнд только с открытой скобкой
+                        a_str = str.Substring(0, PositionOfOperation);//первый операнд
+                        b_str = str.Substring(PositionOfOperation + 2, str.Length - 1 - PositionOfOperation - 1);//второй операнд
+                    }
+                    else//если положительный(без скбок вообще)
                     {
-                         a_str = str.Substring(0, PositionOfOperation);//первый операнд
-                         b_str = str.Substring(PositionOfOperation + 1, str.Length - 1 - PositionOfOperation);//второй операнд
+                        a_str = str.Substring(0, PositionOfOperation);//первый операнд
+                        b_str = str.Substring(PositionOfOperation + 1, str.Length - 1 - PositionOfOperation);//второй операнд
                     }
                     MessageBox.Show($"a_str={a_str}\nb_Str={b_str}\noperation={operation}");
                         a = double.Parse(a_str);
