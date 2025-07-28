@@ -264,7 +264,8 @@ namespace Calculator
         private void ACButton_Click(object sender, EventArgs e)
         {
             OutputLabel.Text = "0";
-            
+            HaveComaInFirstOperand = false;
+            HaveComaInSecondOperand = false;
             IsActiveOperation = false;
             ExpressionIsFormed = false;
         }
@@ -285,7 +286,7 @@ namespace Calculator
             }
             else//ситуация 5+13
             {
-                //посчитать выражение и поставить знак +
+                //посчитать выражение и поставить знак 
             }
 
 
@@ -354,6 +355,8 @@ namespace Calculator
                 OutputLabel.Text = funcs.calculate(a, b, operation).ToString();
                 IsActiveOperation = false;
                 ExpressionIsFormed = false;
+                HaveComaInFirstOperand = false;
+                HaveComaInSecondOperand = false;
             }
             catch
             {
@@ -379,13 +382,14 @@ namespace Calculator
         private void PlusMinusButton_Click(object sender, EventArgs e)
         {
             char first_char = OutputLabel.Text[0];
+            //первый операнд
             if (first_char == '-' && !ExpressionIsFormed)
             {
                 string a = OutputLabel.Text.Substring(1, OutputLabel.Text.Length - 1);
                 OutputLabel.Text = a;
 
             }
-            else if (first_char == '0' && !ExpressionIsFormed)
+            else if (first_char == '0'&&OutputLabel.Text.Length==1 && !ExpressionIsFormed)//если только 0 в строке
                 return;
             else if (!first_char.Equals('-') && !ExpressionIsFormed)//не равен - и мы не на стадии операции 
             {
@@ -393,6 +397,7 @@ namespace Calculator
                 OutputLabel.Text = a;
 
             }
+            //второй операнд
             else if (ExpressionIsFormed && OutputLabel.Text[OutputLabel.Text.Length-1]!=')' )
             {
                 //когда уже ExpressionIsFormed==true(выражение сформировано) и до этого не было минуса
@@ -416,20 +421,30 @@ namespace Calculator
 
         private void CButton_Click(object sender, EventArgs e)
         {
-            if (OutputLabel.Text.Length > 1)//чекать если стираем знак препинания то IsActiveOperation=false
+            if (OutputLabel.Text.Length > 1)//чекать если стираем знак операции то IsActiveOperation=false
             {
-                char[] operations = new[]{ '+','-','x','/','^','l' ,'o','g'};
+                char[] operations = new[] { '+', '-', 'x', '/', '^', 'l', 'o', 'g' };
                 bool IsDeleted = false;//показывает удалили ли мы знак операции или нет
-                foreach(char item in operations)
+                if(operations.Contains(OutputLabel.Text[OutputLabel.Text.Length - 1]))
+                {//научиться отличать - как згак и как операцию
+
+                }
+                foreach (char item in operations)
                 {
-                    if (item.Equals(OutputLabel.Text[OutputLabel.Text.Length - 1]))
+                    if (item.Equals(OutputLabel.Text.IndexOf('-')!= (OutputLabel.Text.Length - 1)))
+                    {//если хотим удалить знак отрицательного числа а не операции вычитания
+                        OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
+
+                    }
+                    else if(item.Equals(OutputLabel.Text[OutputLabel.Text.Length - 1]))
                     {//если хотим удалить знак операции
                         OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
                         IsActiveOperation = false;
                         IsDeleted = true;
+
                     }
                 }
-                if(!IsDeleted&& operations.Contains(OutputLabel.Text[OutputLabel.Text.Length - 2]))
+                if (!IsDeleted && operations.Contains(OutputLabel.Text[OutputLabel.Text.Length - 2]))
                 {//если хотим удалить цифру и перед ней стоит знак операции
                     OutputLabel.Text = OutputLabel.Text.Substring(0, OutputLabel.Text.Length - 1);
                     IsActiveOperation = true;
@@ -441,10 +456,26 @@ namespace Calculator
                 }
 
             }
-            else if ((OutputLabel.Text.Length == 1 && !OutputLabel.Text[0].Equals("0")) || (OutputLabel.Text.Length == 2 && OutputLabel.Text[0].Equals("-")))//Пример: 8 -> 0 || -8 ->0
-                OutputLabel.Text = "0";
+            //else if ((OutputLabel.Text.Length == 1 && !OutputLabel.Text[0].Equals("0")) || (OutputLabel.Text.Length == 2 && OutputLabel.Text[0].Equals("-")))//Пример: 8 -> 0 || -8 ->0
+            //  OutputLabel.Text = "0";
             else
-                return;//0 -> 0
+                OutputLabel.Text = "0";//0 -> 0
+        }
+
+            bool HaveComaInFirstOperand = false;
+            bool HaveComaInSecondOperand = false;
+        private void ComaButton_Click(object sender, EventArgs e)
+        {
+            if (!HaveComaInFirstOperand && !ExpressionIsFormed && !IsActiveOperation)
+            {//если хотим добавить запятую в первом операнде
+                OutputLabel.Text += ',';
+                HaveComaInFirstOperand = true;
+            }
+            else if (ExpressionIsFormed &&!HaveComaInSecondOperand)
+            {//если хотим добавить запятую во втором операнде
+                OutputLabel.Text += ',';
+                HaveComaInSecondOperand = true;
+            }
         }
     }
 }

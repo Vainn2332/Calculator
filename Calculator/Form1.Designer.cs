@@ -302,6 +302,7 @@
             this.ComaButton.TabIndex = 20;
             this.ComaButton.Text = ",";
             this.ComaButton.UseVisualStyleBackColor = false;
+            this.ComaButton.Click += new System.EventHandler(this.ComaButton_Click);
             // 
             // ZeroButton
             // 
