@@ -44,7 +44,7 @@ namespace Calculator
                         a_str = str.Substring(0, PositionOfOperation);//первый операнд
                         b_str = str.Substring(PositionOfOperation + 1, str.Length - 1 - PositionOfOperation);//второй операнд
                     }
-                    MessageBox.Show($"a_str={a_str}\nb_Str={b_str}\noperation={operation}");
+                   // MessageBox.Show($"a_str={a_str}\nb_Str={b_str}\noperation={operation}");
                         a = double.Parse(a_str);
                         b = double.Parse(b_str);
                     

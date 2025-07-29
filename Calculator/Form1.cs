@@ -354,22 +354,22 @@ namespace Calculator
 
         private void EqualsButton_Click(object sender, EventArgs e)
         {
-            try
-            {
+          //  try
+            //{
                 Functions funcs = new Functions();//класс где храним все функции и сути мат.операций
                 funcs.separator(OutputLabel.Text, ref a, ref b, ref operation);
                 //MessageBox.Show($"a={a}\t b={b}\t oper={operation}");
                 MiniOutputLabel.Text = OutputLabel.Text;
-                OutputLabel.Text = funcs.calculate(a, b, operation).ToString();
+            OutputLabel.Text = funcs.calculate(a, b, operation).ToString().Substring(0, Math.Min(10, funcs.calculate(a, b, operation).ToString().Length));
                 IsActiveOperation = false;
                 ExpressionIsFormed = false;
                 HaveComaInFirstOperand = false;
                 HaveComaInSecondOperand = false;
-            }
+            /*}
             catch
             {
                 MessageBox.Show("синтаксическая ошибка!");
-            }
+            }*/
         }
 
         private void PowButton_Click(object sender, EventArgs e)
@@ -506,6 +506,11 @@ namespace Calculator
                 OutputLabel.Text += ',';
                 HaveComaInSecondOperand = true;
             }     
+        }
+
+        private void LogButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

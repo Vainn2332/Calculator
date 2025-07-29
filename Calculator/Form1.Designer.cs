@@ -338,6 +338,7 @@
             this.LogButton.TabIndex = 22;
             this.LogButton.Text = "log";
             this.LogButton.UseVisualStyleBackColor = false;
+            this.LogButton.Click += new System.EventHandler(this.LogButton_Click);
             // 
             // OutputLabel
             // 
