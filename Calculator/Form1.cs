@@ -433,7 +433,7 @@ namespace Calculator
 
         private void CButton_Click(object sender, EventArgs e)//стирать запятые у 1го и у 2го операнд
         {
-            char[] operations = new[] { '+', '-', 'x', '/', '^', 'l', 'o', 'g' };
+            char[] operations = new[] { '+', '-', 'x', '/', '^' };
             if (OutputLabel.Text.Length > 2)
             {
                 if (operations.Contains(OutputLabel.Text[OutputLabel.Text.Length - 2]) && OutputLabel.Text[OutputLabel.Text.Length - 3] != '(')
