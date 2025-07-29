@@ -343,7 +343,7 @@
             // OutputLabel
             // 
             this.OutputLabel.BackColor = System.Drawing.Color.White;
-            this.OutputLabel.Font = new System.Drawing.Font("Consolas", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.OutputLabel.Font = new System.Drawing.Font("Consolas", 23.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.OutputLabel.Location = new System.Drawing.Point(12, 62);
             this.OutputLabel.Name = "OutputLabel";
             this.OutputLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;

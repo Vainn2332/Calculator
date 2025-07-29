@@ -360,7 +360,7 @@ namespace Calculator
                 funcs.separator(OutputLabel.Text, ref a, ref b, ref operation);
                 //MessageBox.Show($"a={a}\t b={b}\t oper={operation}");
                 MiniOutputLabel.Text = OutputLabel.Text;
-            OutputLabel.Text = funcs.calculate(a, b, operation).ToString().Substring(0, Math.Min(10, funcs.calculate(a, b, operation).ToString().Length));
+                OutputLabel.Text = funcs.calculate(a, b, operation).ToString().Substring(0, Math.Min(12, funcs.calculate(a, b, operation).ToString().Length));
                 IsActiveOperation = false;
                 ExpressionIsFormed = false;
                 HaveComaInFirstOperand = false;
