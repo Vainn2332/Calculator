@@ -47,5 +47,54 @@ namespace Calculator
                 this.Top += e.Y - point.Y;
             }
         }
+
+        private void LogcheckBox_MouseClick(object sender, MouseEventArgs e)
+        {            
+            BasetextBox.Text = "10";
+            if (LncheckBox.Checked)
+            {
+                LncheckBox.Checked = false;
+                LogcheckBox.Checked = true;
+            }
+            else if (!LogcheckBox.Checked && !LncheckBox.Checked)
+                        BasetextBox.Text = "";
+        }
+
+        private void LncheckBox_MouseClick(object sender, MouseEventArgs e)
+        {           
+            BasetextBox.Text = "e";
+            if (LogcheckBox.Checked)
+            {
+                LogcheckBox.Checked = false;
+                LncheckBox.Checked = true;
+            }
+            else if(!LogcheckBox.Checked&&!LncheckBox.Checked)
+                BasetextBox.Text = "";
+        }
+
+        private void OkButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+
+                double a = double.Parse(ValuetextBox.Text);
+                if(a<=0)
+                    MessageBox.Show("Значение логарифма не может быть отрицательным или равным нулю!");
+                double b;
+                if (BasetextBox.Text == "e")
+                    b = Math.E;
+                else
+                    b = double.Parse(BasetextBox.Text);
+                if (b <= 0)
+                    MessageBox.Show("Основание логарифма не может быть отрицательным или равным нулю!");
+                Outputlabel.Text=Math.Log(a,b).ToString();
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка полей ввода!");
+            }
+        }
+
+       
     }
 }

@@ -511,6 +511,17 @@ namespace Calculator
         private void LogButton_Click(object sender, EventArgs e)
         {
 
+            LogForm logform=Application.OpenForms.OfType<LogForm>().FirstOrDefault();
+            if (logform != null)
+            {//если уже открыта
+                logform.BringToFront();//если свернута
+                logform.WindowState = FormWindowState.Normal;
+            }
+            else
+            {
+                LogForm newlogform = new LogForm();
+                newlogform.Show();
+            }
         }
     }
 }
